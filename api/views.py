@@ -26,3 +26,17 @@ def logout_view(request):
         return JsonResponse({'detail': 'You are not logged in'}, status=400)
     logout(request)
     return JsonResponse({'detail': 'Successfully logged out'})
+
+
+@ensure_csrf_cookie
+def session_view(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"is_authenticated": False})
+    return JsonResponse({"is_authenticated": True})
+
+
+@ensure_csrf_cookie
+def whoam_view(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"is_authenticated": False})
+    return JsonResponse({"username": request.user.username})
